@@ -1,0 +1,25 @@
+﻿@page "/products"
+
+@using Northwind.Web.Configuration
+
+@inject GatewayApi GatewayApi
+
+<h1>Northwind Products</h1>
+
+<button @onclick="OnGetProductsAsync">Load Products</button>
+
+@if (!string.IsNullOrEmpty(Result))
+{
+    <p>@Result</p>
+}
+
+@code 
+{
+    public string Result { get; set; }
+
+    public async Task OnGetProductsAsync()
+    {
+        HttpResponseMessage response = await GatewayApi.GetAsync("product");
+        Result = await response.Content.ReadAsStringAsync();
+    }
+}
